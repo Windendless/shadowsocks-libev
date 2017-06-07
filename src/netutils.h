@@ -24,6 +24,7 @@
 #define _NETUTILS_H
 
 #if defined(__linux__)
+#include <sys/socket.h>
 #include <netdb.h>
 #elif !defined(__MINGW32__)
 #include <netinet/tcp.h>
