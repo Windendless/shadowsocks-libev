@@ -20,21 +20,6 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#if defined(USE_CRYPTO_OPENSSL)
-
-#include <openssl/opensslv.h>
-#define USING_CRYPTO OPENSSL_VERSION_TEXT
-
-#elif defined(USE_CRYPTO_POLARSSL)
-#include <polarssl/version.h>
-#define USING_CRYPTO POLARSSL_VERSION_STRING_FULL
-
-#elif defined(USE_CRYPTO_MBEDTLS)
-#include <mbedtls/version.h>
-#define USING_CRYPTO MBEDTLS_VERSION_STRING_FULL
-
-#endif
-
 #ifndef _UTILS_H
 #define _UTILS_H
 
@@ -98,32 +83,6 @@ extern FILE *logfile;
                     ## __VA_ARGS__);                             \
             fflush(logfile); }                                   \
     }                                                            \
-    while (0)
-
-#elif defined(_WIN32)
-
-#define TIME_FORMAT "%Y-%m-%d %H:%M:%S"
-
-#define USE_TTY()
-
-#define USE_SYSLOG(ident)
-
-#define LOGI(format, ...)                                                   \
-    do {                                                                    \
-        time_t now = time(NULL);                                            \
-        char timestr[20];                                                   \
-        strftime(timestr, 20, TIME_FORMAT, localtime(&now));                \
-        fprintf(stderr, " %s INFO: " format "\n", timestr, ## __VA_ARGS__); \
-        fflush(stderr); }                                                   \
-    while (0)
-
-#define LOGE(format, ...)                                                    \
-    do {                                                                     \
-        time_t now = time(NULL);                                             \
-        char timestr[20];                                                    \
-        strftime(timestr, 20, TIME_FORMAT, localtime(&now));                 \
-        fprintf(stderr, " %s ERROR: " format "\n", timestr, ## __VA_ARGS__); \
-        fflush(stderr); }                                                    \
     while (0)
 
 #else // not LIB_ONLY
