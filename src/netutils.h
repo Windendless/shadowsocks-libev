@@ -23,8 +23,11 @@
 #ifndef _NETUTILS_H
 #define _NETUTILS_H
 
-#if defined(__linux__)
+#if !defined(__MINGW32__)
 #include <sys/socket.h>
+#endif
+
+#if defined(__linux__)
 #include <netdb.h>
 #elif !defined(__MINGW32__)
 #include <netinet/tcp.h>
