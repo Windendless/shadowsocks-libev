@@ -46,7 +46,7 @@
 #define PORTSTRLEN 16
 #define SS_ADDRSTRLEN (INET6_ADDRSTRLEN + PORTSTRLEN + 1)
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 
 #include <android/log.h>
 #define USE_TTY()
