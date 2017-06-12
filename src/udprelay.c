@@ -706,8 +706,9 @@ remote_recv_cb(EV_P_ ev_io *w, int revents)
         ERROR("[udp] remote_recv_recvfrom");
         goto CLEAN_UP;
     } else if (r > packet_size) {
-        LOGE("[udp] remote_recv_recvfrom fragmentation");
-        goto CLEAN_UP;
+        if (verbose) {
+            LOGI("[udp] remote_recv_recvfrom fragmentation");
+        }
     }
 
     buf->len = r;
@@ -786,8 +787,9 @@ remote_recv_cb(EV_P_ ev_io *w, int revents)
 #endif
 
     if (buf->len > packet_size) {
-        LOGE("[udp] remote_recv_sendto fragmentation");
-        goto CLEAN_UP;
+        if (verbose) {
+            LOGI("[udp] remote_recv_sendto fragmentation");
+        }
     }
 
     size_t remote_src_addr_len = get_sockaddr_len((struct sockaddr *)&remote_ctx->src_addr);
@@ -889,8 +891,9 @@ server_recv_cb(EV_P_ ev_io *w, int revents)
         ERROR("[udp] server_recvmsg");
         goto CLEAN_UP;
     } else if (buf->len > packet_size) {
-        ERROR("[udp] UDP server_recv_recvmsg fragmentation");
-        goto CLEAN_UP;
+        if (verbose) {
+            LOGI("[udp] UDP server_recv_recvmsg fragmentation");
+        }
     }
 
     if (get_dstaddr(&msg, &dst_addr)) {
@@ -910,8 +913,9 @@ server_recv_cb(EV_P_ ev_io *w, int revents)
         ERROR("[udp] server_recv_recvfrom");
         goto CLEAN_UP;
     } else if (r > packet_size) {
-        ERROR("[udp] server_recv_recvfrom fragmentation");
-        goto CLEAN_UP;
+        if (verbose) {
+            LOGI("[udp] server_recv_recvfrom fragmentation");
+        }
     }
 
     buf->len = r;
@@ -1197,8 +1201,9 @@ server_recv_cb(EV_P_ ev_io *w, int revents)
     }
 
     if (buf->len > packet_size) {
-        LOGE("[udp] server_recv_sendto fragmentation");
-        goto CLEAN_UP;
+        if (verbose) {
+            LOGI("[udp] server_recv_sendto fragmentation");
+        }
     }
 
     int s = sendto(remote_ctx->fd, buf->data, buf->len, 0, remote_addr, remote_addr_len);
@@ -1213,8 +1218,9 @@ server_recv_cb(EV_P_ ev_io *w, int revents)
     int need_query = 0;
 
     if (buf->len - addr_header_len > packet_size) {
-        LOGE("[udp] server_recv_sendto fragmentation");
-        goto CLEAN_UP;
+        if (verbose) {
+            LOGE("[udp] server_recv_sendto fragmentation");
+        }
     }
 
     if (remote_ctx != NULL) {
