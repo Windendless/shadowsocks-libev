@@ -85,6 +85,32 @@ extern FILE *logfile;
     }                                                            \
     while (0)
 
+#elif defined(_WIN32)
+
+#define TIME_FORMAT "%Y-%m-%d %H:%M:%S"
+
+#define USE_TTY()
+
+#define USE_SYSLOG(ident)
+
+#define LOGI(format, ...)                                                   \
+    do {                                                                    \
+        time_t now = time(NULL);                                            \
+        char timestr[20];                                                   \
+        strftime(timestr, 20, TIME_FORMAT, localtime(&now));                \
+        fprintf(stderr, " %s INFO: " format "\n", timestr, ## __VA_ARGS__); \
+        fflush(stderr); }                                                   \
+    while (0)
+
+#define LOGE(format, ...)                                                    \
+    do {                                                                     \
+        time_t now = time(NULL);                                             \
+        char timestr[20];                                                    \
+        strftime(timestr, 20, TIME_FORMAT, localtime(&now));                 \
+        fprintf(stderr, " %s ERROR: " format "\n", timestr, ## __VA_ARGS__); \
+        fflush(stderr); }                                                    \
+    while (0)
+
 #else // not LIB_ONLY
 
 #include <syslog.h>
