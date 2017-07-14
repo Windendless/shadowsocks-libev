@@ -1485,6 +1485,9 @@ main(int argc, char **argv)
             nofile = conf->nofile;
         }
 #endif
+        if (ipv6first == 0) {
+            ipv6first = conf->ipv6_first;
+        }
     }
 
     if (remote_num == 0 || remote_port == NULL ||
