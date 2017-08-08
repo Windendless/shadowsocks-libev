@@ -91,7 +91,7 @@ extern FILE *logfile;
 
 #define USE_TTY()
 
-#define USE_SYSLOG(ident)
+#define USE_SYSLOG(ident, _cond)
 
 #define LOGI(format, ...)                                                   \
     do {                                                                    \
